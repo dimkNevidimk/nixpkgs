@@ -1,0 +1,13 @@
+diff --git a/daemon/dns/hosts.go b/daemon/dns/hosts.go
+index 7045005..11c0dff 100644
+--- a/daemon/dns/hosts.go
++++ b/daemon/dns/hosts.go
+@@ -12,7 +12,7 @@ import (
+ )
+
+ const (
+-	HostsFilePath = "/etc/hosts"
++	HostsFilePath = "/etc/hosts.nordvpn"
+ 	mark          = "# NordVPN"
+ )
+
