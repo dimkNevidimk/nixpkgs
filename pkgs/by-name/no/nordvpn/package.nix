@@ -1,6 +1,6 @@
 {
   appendOverlays,
-  buildGoModule,
+  buildGo123Module,
   e2fsprogs,
   fetchFromGitHub,
   iproute2,
@@ -12,6 +12,7 @@
   procps,
   systemdMinimal,
   wireguard-tools,
+  libtelio,
 }:
 let
   patchedPkgs =
@@ -56,7 +57,7 @@ let
       })
     ];
 in
-buildGoModule (finalAttrs: {
+buildGo123Module (finalAttrs: {
 
   pname = "nordvpn";
   version = "3.20.2";
@@ -68,6 +69,10 @@ buildGoModule (finalAttrs: {
     tag = finalAttrs.version;
   };
 
+  patches = [
+    ./fix-etc-hosts.patch
+  ];
+
   nativeBuildInputs = [
     makeWrapper
     pkg-config
@@ -77,6 +82,7 @@ buildGoModule (finalAttrs: {
     # cgo build dependencies go here
     # https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/go.section.md#envcgo_enabled-var-go-cgo_enabled
     libxml2
+    libtelio
   ];
 
   vendorHash = "sha256-gW/KieixLS6TTcBOHeYK9L8sieERrj6ia+iov8rT2AE=";
@@ -94,6 +100,10 @@ buildGoModule (finalAttrs: {
     chmod +w vendor/github.com/jbowtie/gokogiri/xpath/
     sed -i '6i#include <stdlib.h>' vendor/github.com/jbowtie/gokogiri/xpath/expression.go
   '';
+
+  tags = [
+    "telio"
+  ];
 
   ldflags = [
     "-X main.Environment=prod"
