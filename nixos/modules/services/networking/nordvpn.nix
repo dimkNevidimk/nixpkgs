@@ -88,6 +88,13 @@ in
         nordvpnPkg
       ];
 
+      environment.etc."hosts.nordvpn" = {
+        mode = "0644";
+        user = cfg.user;
+        group = cfg.group;
+        text = "";
+      };
+
       systemd.services.nordvpnd = {
         after = [ "network-online.target" ];
         description = "NordVPN daemon.";
