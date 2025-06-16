@@ -72,10 +72,14 @@ in
         enable = true;
         extraConfig = ''
           polkit.addRule(function(action, subject) {
-            if (action.id == "org.freedesktop.resolve1.set-dns-servers"
-                && subject.isInGroup("${cfg.group}")) {
+            if ((action.id == "org.freedesktop.resolve1.set-dns-servers"
+                || action.id == "org.freedesktop.resolve1.set-domains"
+                || action.id == "org.freedesktop.resolve1.set-default-route"
+                || action.id == "org.freedesktop.resolve1.set-dnssec"
+                || action.id == "org.freedesktop.resolve1.revert"
+                ) && subject.isInGroup("${cfg.group}")) {
               return polkit.Result.YES;
-            }
+             }
           });
         '';
       };
